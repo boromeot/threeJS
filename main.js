@@ -14,19 +14,19 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.setClearColor(new THREE.Color('#001430'), 1);
+renderer.setClearColor(new THREE.Color('#000210'), 1);
 camera.position.setZ(3);
 
 renderer.render( scene, camera );
 
 const torusGeometry = new THREE.TorusGeometry( 1, .2, 16, 100 );
 const particleGeometry = new THREE.BufferGeometry;
-const particlesCount = 500;
+const particlesCount = 1000;
 
 const posArr = new Float32Array(particlesCount * 3);
 
 for ( let i = 0; i < particlesCount * 3; i++ ) {
-  posArr[i] = (Math.random() - 0.5) * 5;
+  posArr[i] = (Math.random() - 0.5) * 7;
 }
 
 particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
