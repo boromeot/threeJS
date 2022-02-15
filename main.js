@@ -14,34 +14,47 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
-camera.position.setZ(30);
+renderer.setClearColor(new THREE.Color('#001430'), 1);
+camera.position.setZ(3);
 
 renderer.render( scene, camera );
 
+const torusGeometry = new THREE.TorusGeometry( 1, .2, 16, 100 );
+const particleGeometry = new THREE.BufferGeometry;
+const particlesCount = 500;
 
-const geometry = new THREE.TorusGeometry( 10, 3, 16, 100 );
-const material = new THREE.MeshStandardMaterial( { color: 0xFFDF00, wireframe: true } );
-const torus = new THREE.Mesh( geometry, material );
-scene.add(torus);
+const posArr = new Float32Array(particlesCount * 3);
 
-const pointLight = new THREE.PointLight(0xFFFFFF);
-pointLight.position.set(5, 5, 5);
+for ( let i = 0; i < particlesCount * 3; i++ ) {
+  posArr[i] = (Math.random() - 0.5) * 5;
+}
 
-const ambientLight = new THREE.AmbientLight(0xFFFFFF);
-scene.add(pointLight, ambientLight);
+particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
 
-const lightHelper = new THREE.PointLightHelper(pointLight);
-const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(lightHelper, gridHelper);
+const material = new THREE.PointsMaterial({
+  size: 0.001,
+});
+
+const particleMaterial = new THREE.PointsMaterial({
+  size: 0.001,
+})
+
+const torus = new THREE.Points( torusGeometry, material );
+const particleMesh = new THREE.Points( particleGeometry, particleMaterial );
+
+scene.add(torus, particleMesh);
+
+const axesHelper = new THREE.AxesHelper(5);
+scene.add(axesHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
 function animate() {
   requestAnimationFrame( animate );
 
-  torus.rotation.x += 0.01;
-  torus.rotation.y += 0.01;
-  torus.rotation.z += 0.01;
+  torus.rotation.z += 0.001;
+  particleMesh.rotation.x += 0.0075;
+  particleMesh.rotation.y += 0.0075;
 
   controls.update();
 
