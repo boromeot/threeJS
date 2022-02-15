@@ -44,15 +44,15 @@ const particleMesh = new THREE.Points( particleGeometry, particleMaterial );
 
 scene.add(torus, particleMesh);
 
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
 function animate() {
   requestAnimationFrame( animate );
 
-  torus.rotation.z += 0.001;
+  torus.rotation.y += 0.01;
   particleMesh.rotation.x += 0.0075;
   particleMesh.rotation.y += 0.0075;
 
